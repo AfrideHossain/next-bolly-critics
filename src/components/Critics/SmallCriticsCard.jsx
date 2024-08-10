@@ -13,8 +13,15 @@ import Image from "next/image";
 
 const SmallCriticsCard = () => {
   return (
-    <Card variant="elevation" sx={{ marginBottom: 5, display: "flex" }}>
-      <CardMedia sx={{ width: 200 }}>
+    <Card
+      variant="elevation"
+      sx={{
+        marginBottom: 5,
+        display: "flex",
+        flexDirection: { md: "row", sm: "column", xs: "column" },
+      }}
+    >
+      <CardMedia sx={{ width: { md: 200 }, height: { xs: 200 } }}>
         <Box position="relative" sx={{ width: "100%", height: "100%" }}>
           <Image
             src={"/.images/posters.jpeg"}
