@@ -1,5 +1,7 @@
+import AboutHome from "@/components/About/AboutHome";
+import Critics from "@/components/Critics/Critics";
 import Heading from "@/components/Heading/Heading";
-import Navbar from "@/components/Navbar/Navbar";
+
 import Reviews from "@/components/Reviews/Reviews";
 import {
   Avatar,
@@ -15,7 +17,7 @@ import React from "react";
 const Homepage = () => {
   return (
     <>
-      <Navbar />
+      
       <Container maxWidth="xl">
         <Box position={"relative"}>
           <Avatar variant="square" sx={{ width: "inherit", height: "100vh" }}>
@@ -80,6 +82,10 @@ const Homepage = () => {
         </Box>
         <Heading title={"Featured Reviews"} />
         <Reviews />
+        <Heading title={"Popular Critics"} />
+        <Critics />
+        <Heading title={"About Bolly Critics"} />
+        <AboutHome />
       </Container>
     </>
   );

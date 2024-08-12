@@ -27,7 +27,7 @@ const Navbar = () => {
         >
           <MenuComponent />
           <Typography variant="h6" sx={{ fontWeight: 700 }} color={"inherit"}>
-            NextMat
+            Bolly Critics
           </Typography>
           <Box
             sx={{
@@ -38,7 +38,11 @@ const Navbar = () => {
             <Links />
           </Box>
           <Box>
-            <Button variant="contained" color="secondary">
+            <Button
+              variant="contained"
+              color="secondary"
+              href="/login"
+            >
               Login
             </Button>
           </Box>
