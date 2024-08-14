@@ -1,15 +1,13 @@
+import { handleGithubLogin } from "@/lib/action";
 import { Button } from "@mui/material";
 import Image from "next/image";
 
 const GithubBtn = () => {
-  const handleGithubLogin = async () => {
-      "use server";
-      await
-  };
   return (
     <>
       <form action={handleGithubLogin}>
         <Button
+          type="submit"
           variant="contained"
           color="primary"
           sx={{

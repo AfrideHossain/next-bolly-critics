@@ -1,3 +1,5 @@
+"use client";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,8 +10,18 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import GithubBtn from "@/components/GithubBtn/GithubBtn";
-const Login = () => {
+import { useForm } from "react-hook-form";
+import { handleRegister } from "@/lib/action";
+const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const submitHandler = async (data) => {
+    handleRegister(data);
+  };
   return (
     <>
       <Box
@@ -24,9 +36,25 @@ const Login = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign up
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          noValidate
+          sx={{ mt: 1 }}
+          onSubmit={handleSubmit(submitHandler)}
+        >
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            {...register("username")}
+          />
           <TextField
             margin="normal"
             required
@@ -36,6 +64,7 @@ const Login = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            {...register("email")}
           />
           <TextField
             margin="normal"
@@ -46,6 +75,7 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            {...register("password")}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -67,17 +97,14 @@ const Login = () => {
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"Already have an account? Sign In"}
               </Link>
             </Grid>
           </Grid>
-        </Box>
-        <Box mt={2}>
-          <GithubBtn />
         </Box>
       </Box>
     </>
   );
 };
 
-export default Login;
+export default Register;
