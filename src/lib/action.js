@@ -13,6 +13,7 @@ export const handleLogout = async () => {
   "use server";
   await signOut();
 };
+// Registration
 export const handleRegister = async (credentialData) => {
   // console.log(credentialData);
   const { username, email, password } = credentialData;
@@ -21,16 +22,38 @@ export const handleRegister = async (credentialData) => {
     connectToDb();
     const user = await User.findOne({ email });
     if (user) {
-      return "user already exists";
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(password, salt);
-    const newUser = new User({ username, email, password: hashedPass });
+      return { error: "user already exists" };
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPass = await bcrypt.hash(password, salt);
+      const newUser = new User({ username, email, password: hashedPass });
 
-    await newUser.save();
-    console.log("saver to db");
+      await newUser.save();
+      // console.log("saver to db");
+      return { success: true };
+    }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return { error: "Something went wrong" };
+  }
+};
+//user login
+export const handleLogin = async (credentialData) => {
+  const { email, password } = credentialData;
+  try {
+    await signIn("credentials", { email, password });
+  } catch (err) {
+    // console.log("\n\nFrom action catch block *=>", err, {
+    //   type: typeof err,
+    //   props: Object.keys(err),
+    //   msg: err.message,
+    //   errType: err.type,
+    //   name: err.name,
+    // });
+    if (err.name === "CredentialsSignin") {
+      // console.log("\n\n\n\nbla bla bla.^&&&&");
+      return { error: "Invalid credentials" };
+    }
+    throw err;
   }
 };

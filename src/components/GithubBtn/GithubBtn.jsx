@@ -10,8 +10,8 @@ const GithubBtn = () => {
           type="submit"
           variant="contained"
           color="primary"
+          fullWidth
           sx={{
-            width: "100%",
             py: 2,
             textTransform: "none",
             display: "flex",

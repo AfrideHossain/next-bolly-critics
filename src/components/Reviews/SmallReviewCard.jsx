@@ -20,7 +20,6 @@ const SmallReviewCard = () => {
             src={"/.images/posters.jpeg"}
             alt="poster"
             fill
-            objectFit="cover"
           />
         </Box>
       </CardMedia>

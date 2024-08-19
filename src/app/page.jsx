@@ -25,7 +25,6 @@ const Homepage = () => {
               alt="profile picture"
               src={"/.images/posters.jpeg"}
               fill
-              style={{ objectFit: "cover" }}
             />
           </Avatar>
           <Box
