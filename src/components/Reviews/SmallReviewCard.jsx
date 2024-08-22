@@ -11,21 +11,18 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 
-const SmallReviewCard = () => {
+const SmallReviewCard = ({ reviewInfo }) => {
+  const { posterUrl, review, movieName, userId } = reviewInfo;
   return (
     <Card variant="elevation" sx={{ marginBottom: 5 }}>
       <CardMedia sx={{ height: 150 }}>
         <Box position="relative" sx={{ width: "100%", height: "100%" }}>
-          <Image
-            src={"/.images/posters.jpeg"}
-            alt="poster"
-            fill
-          />
+          <Image src={posterUrl} alt={movieName + "poster"} fill />
         </Box>
       </CardMedia>
       <CardContent>
         <Typography variant="h5" gutterBottom component="h5" fontWeight={600}>
-          Hello world
+          {movieName}
         </Typography>
         <Typography variant="body1" component="p" fontWeight={500}>
           By{" "}

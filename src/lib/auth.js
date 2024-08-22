@@ -4,6 +4,7 @@ import credentialProvider from "next-auth/providers/credentials";
 import { connectToDb } from "./utils";
 import { User } from "./models";
 import bcrypt from "bcrypt";
+import { authConfig } from "./auth.config";
 
 // login function
 const login = async (credentials) => {
@@ -11,6 +12,7 @@ const login = async (credentials) => {
   try {
     await connectToDb();
     const user = await User.findOne({ email });
+    // console.log("from auth file inside login: ", user);
     if (!user) {
       throw new Error("Wrong credentials");
     }
@@ -20,8 +22,19 @@ const login = async (credentials) => {
     if (!isPassMatched) {
       throw new Error("Wrong credentials");
     }
+    // let nUser = {
+    //   id: user?._id.toString(),
+    //   username: user?.username,
+    //   email: user?.email,
+    //   isAdmin: user?.isAdmin,
+    // };
 
-    return user;
+    return {
+      id: user?._id.toString(),
+      username: user?.username,
+      email: user?.email,
+      isAdmin: user?.isAdmin,
+    };
   } catch (err) {
     // console.error(err);
     throw new Error("Failed to login");
@@ -34,6 +47,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  ...authConfig,
   providers: [
     GitHub({
       clientId: process.env.GITHUB_ID,
@@ -43,6 +57,7 @@ export const {
       async authorize(credentials) {
         try {
           const user = await login(credentials);
+          // console.log("from authorize: ", user);
           return user;
         } catch (error) {
           return null;
@@ -51,7 +66,11 @@ export const {
     }),
   ],
   secret: process.env.AUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
+    ...authConfig.callbacks,
     async signIn({ user, account, profile }) {
       // console.log({ user, account, profile });
       if (account.provider === "github") {

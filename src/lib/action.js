@@ -1,6 +1,6 @@
 "use server";
-import { signIn, signOut } from "./auth";
-import { User } from "./models";
+import { auth, signIn, signOut } from "./auth";
+import { Review, User } from "./models";
 import { connectToDb } from "./utils";
 import bcrypt from "bcrypt";
 
@@ -51,9 +51,33 @@ export const handleLogin = async (credentialData) => {
     //   name: err.name,
     // });
     if (err.name === "CredentialsSignin") {
-      // console.log("\n\n\n\nbla bla bla.^&&&&");
       return { error: "Invalid credentials" };
     }
     throw err;
+  }
+};
+
+// post review
+export const submitReview = async (data) => {
+  const session = await auth();
+  // console.log(session);
+  await connectToDb();
+
+  try {
+    const { rating, review, posterUrl, movieName } = data;
+    const userId = session?.user?.id;
+    const newReview = new Review({
+      rating,
+      review,
+      posterUrl,
+      userId,
+      movieName,
+    });
+    await newReview.save();
+    console.log("saved review");
+    return true;
+  } catch (error) {
+    console.error("Error submitting review:", error);
+    return false;
   }
 };

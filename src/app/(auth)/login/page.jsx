@@ -12,9 +12,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { useForm } from "react-hook-form";
 import { handleLogin } from "@/lib/action";
 import Alert from "@mui/material/Alert";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import GithubBtn from "@/components/GithubBtn/GithubBtn";
 import { Checkbox, FormControlLabel, Link } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const {
@@ -23,6 +23,7 @@ const Login = () => {
     formState: { errors, isSubmitting },
     setError,
   } = useForm();
+  const router = useRouter();
 
   const submitHandler = async (data) => {
     const result = await handleLogin(data);
@@ -32,6 +33,7 @@ const Login = () => {
         message: result?.error || "Login failed. Please try again.",
       });
     }
+    router.push("/");
   };
 
   return (

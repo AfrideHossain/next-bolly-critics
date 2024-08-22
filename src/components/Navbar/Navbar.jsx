@@ -3,8 +3,6 @@ import {
   Box,
   Button,
   Container,
-  Link,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -15,7 +13,8 @@ import { handleLogout } from "@/lib/action";
 
 const Navbar = async () => {
   const session = await auth();
-  console.log(session);
+  // const user = session?.user;
+  // console.log("Session from navbar: ", session);
   return (
     <Container maxWidth="xl">
       <AppBar
@@ -29,7 +28,7 @@ const Navbar = async () => {
             justifyContent: "space-between",
           }}
         >
-          <MenuComponent />
+          <MenuComponent session={session} />
           <Typography variant="h6" sx={{ fontWeight: 700 }} color={"inherit"}>
             Bolly Critics
           </Typography>
@@ -39,7 +38,7 @@ const Navbar = async () => {
               gap: 2,
             }}
           >
-            <Links />
+            <Links session={session} />
           </Box>
           <Box>
             {!session ? (

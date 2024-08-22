@@ -5,7 +5,7 @@ import { useState } from "react";
 import { links } from "../Links/Links";
 import { MenuOutlined } from "@mui/icons-material";
 
-const MenuComponent = () => {
+const MenuComponent = ({ session }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleOnClose = () => {
@@ -37,13 +37,27 @@ const MenuComponent = () => {
           "aria-labelledby": "menu-btn",
         }}
       >
-        {links.map((link) => (
-          <MenuItem key={link.title}>
-            <Link variant="body1" underline="none" href={link.path}>
-              {link.title}
-            </Link>
-          </MenuItem>
-        ))}
+        {links.map(
+          (link) =>
+            !link.session_required && (
+              <MenuItem key={link.title}>
+                <Link variant="body1" underline="none" href={link.path}>
+                  {link.title}
+                </Link>
+              </MenuItem>
+            )
+        )}
+        {session &&
+          links.map(
+            (link) =>
+              link.session_required && (
+                <MenuItem key={link.title}>
+                  <Link variant="body1" underline="none" href={link.path}>
+                    {link.title}
+                  </Link>
+                </MenuItem>
+              )
+          )}
       </Menu>
     </>
   );

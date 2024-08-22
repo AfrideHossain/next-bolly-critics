@@ -1,25 +1,16 @@
 import { Grid } from "@mui/material";
 import SmallReviewCard from "./SmallReviewCard";
 
-const Reviews = () => {
+const Reviews = ({ reviews }) => {
+  // console.log("reviews form reviews component: ", reviews);
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item md={4} lg={4} xl={3} sm={6} xs={12}>
-          <SmallReviewCard />
-        </Grid>
-        <Grid item md={4} lg={4} xl={3} sm={6} xs={12}>
-          <SmallReviewCard />
-        </Grid>
-        <Grid item md={4} lg={4} xl={3} sm={6} xs={12}>
-          <SmallReviewCard />
-        </Grid>
-        <Grid item md={4} lg={4} xl={3} sm={6} xs={12}>
-          <SmallReviewCard />
-        </Grid>
-        <Grid item md={4} lg={4} xl={3} sm={6} xs={12}>
-          <SmallReviewCard />
-        </Grid>
+        {reviews?.map((review) => (
+          <Grid key={review._id} item md={4} lg={4} xl={3} sm={6} xs={12}>
+            <SmallReviewCard reviewInfo={review} />
+          </Grid>
+        ))}
       </Grid>
     </>
   );
