@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 
-const SmallReviewCard = ({ reviewInfo }) => {
-  const { posterUrl, review, movieName, userId } = reviewInfo;
+const SmallReviewCard = ({ reviewInfo, session }) => {
+  const { posterUrl, movieName, userId, rating, _id } = reviewInfo;
+  console.log("session from small review: ", session);
   return (
     <Card variant="elevation" sx={{ marginBottom: 5 }}>
       <CardMedia sx={{ height: 150 }}>
@@ -49,13 +50,14 @@ const SmallReviewCard = ({ reviewInfo }) => {
             <StarBorderOutlined />
           </IconButton>
           <Typography variant="body1" component="p" fontWeight={500}>
-            0
+            {rating}
           </Typography>
         </Box>
         <Button
           variant="contained"
           color={"primary"}
           sx={{ textTransform: "none" }}
+          href={`/reviews/${_id}`}
         >
           Read Now
         </Button>

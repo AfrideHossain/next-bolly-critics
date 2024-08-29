@@ -17,7 +17,7 @@ export async function GET(request) {
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(skip);
-
+    // console.log("From api: ", reviews);
     return NextResponse.json({ success: true, reviews });
   } catch (error) {
     return NextResponse.json(

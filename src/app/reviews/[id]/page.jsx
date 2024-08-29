@@ -1,9 +1,13 @@
+import AuthorInfo from "@/components/AuthorInfo/AuthorInfo";
+import {  getReviewById } from "@/lib/data";
 import { StarBorderOutlined } from "@mui/icons-material";
 import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
-const Review = () => {
+const Review = async ({ params }) => {
+  const review_data = await getReviewById(params.id);
+  // console.log("review data from review/id", review_data);
   return (
     <Container maxWidth={"xl"} sx={{ my: 2 }}>
       <Typography
@@ -13,7 +17,7 @@ const Review = () => {
         marginBottom={4}
         fontWeight={"bold"}
       >
-        Bollywood Posters
+        {review_data?.movieName}
       </Typography>
       <Grid container>
         <Grid item md={4} minHeight={"100vh"} sx={{ px: 2 }}>
@@ -34,6 +38,9 @@ const Review = () => {
             >
               Author Info
             </Typography>
+            <Box sx={{ marginTop: 2 }}>
+              <AuthorInfo authorIdNDate={{authorId: review_data.userId, posted: review_data.createdAt}} />
+            </Box>
           </Box>
         </Grid>
         <Grid item md={8} sx={{ px: 2 }}>
@@ -48,32 +55,21 @@ const Review = () => {
               }}
             >
               <Image
-                src={"/.images/posters.jpeg"}
+                src={review_data?.posterUrl || ""}
                 alt="poster"
                 fill
                 style={{ objectFit: "cover" }}
               />
             </Box>
             <Typography variant="body1" component="p" sx={{ my: 2 }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-              facere perferendis perspiciatis reprehenderit quisquam suscipit
-              sapiente sint cupiditate similique, omnis officiis fuga nam quas
-              earum exercitationem vel, libero consectetur voluptate nemo velit?
-              Officia error incidunt possimus commodi hic modi ratione inventore
-              aliquam minima, praesentium voluptate velit sequi accusamus libero
-              accusantium harum. Aspernatur rem excepturi dicta quibusdam, illum
-              mollitia aliquid odio commodi distinctio, delectus pariatur neque
-              repudiandae inventore iusto veniam ex ipsa molestias id voluptatem
-              nihil nobis voluptatum. Ad, autem! Neque iure praesentium repellat
-              asperiores, officiis ipsam in laboriosam culpa esse est vel
-              nesciunt! Iure veritatis soluta nam hic sed deserunt.
+              {review_data?.review}
             </Typography>
             <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
               <IconButton area-label="Give a star">
                 <StarBorderOutlined />
               </IconButton>
               <Typography variant="body1" component="p" fontWeight={500}>
-                0
+                {review_data?.rating}
               </Typography>
             </Box>
           </Box>

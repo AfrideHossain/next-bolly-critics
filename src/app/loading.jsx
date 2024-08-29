@@ -1,10 +1,20 @@
-import { CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Container } from "@mui/material";
 
 const loading = () => {
   return (
-    <>
-      <CircularProgress color="primary" />
-    </>
+    <Container maxWidth="xl">
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress color="primary" />
+      </Box>
+    </Container>
   );
 };
 
