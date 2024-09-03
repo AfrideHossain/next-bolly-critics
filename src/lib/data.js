@@ -2,16 +2,17 @@ import { Review, User } from "./models";
 import { connectToDb } from "./utils";
 import { unstable_noStore as no_store } from "next/cache";
 
-export const getAllReviewsData = async (limit, skip) => {
+export const getAllReviewsByUid = async (limit, skip) => {
   no_store();
   try {
-    await connectToDb();
+    await connectToDb();  
     const reviews = await Review.find()
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(skip);
-    return reviews;
+    console.log("reviews from server action: ", reviews);
   } catch (err) {
+    console.log("from fuckin getreviewsbyuid function, bitch: ", err);
     throw new Error("Failed to fetch data");
   }
 };

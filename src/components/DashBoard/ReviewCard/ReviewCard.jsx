@@ -11,8 +11,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-
-const SmallReviewCard = ({ reviewInfo }) => {
+const ReviewCard = ({ reviewInfo }) => {
   const { posterUrl, movieName, rating, _id, createdAt } = reviewInfo;
   return (
     <Card variant="elevation" sx={{ marginBottom: 5 }}>
@@ -26,16 +25,6 @@ const SmallReviewCard = ({ reviewInfo }) => {
           {movieName}
         </Typography>
         <Typography variant="body1" component="p" fontWeight={500}>
-          {/* By{" "}
-          <Typography
-            variant="body1"
-            component="span"
-            fontWeight={500}
-            color={"primary"}
-          >
-            Afride Hossain22
-          </Typography>{" "} */}
-          {/* on Wed Jun 05 2024 */}
           <Typography
             variant="body1"
             component={"p"}
@@ -83,4 +72,4 @@ const SmallReviewCard = ({ reviewInfo }) => {
   );
 };
 
-export default SmallReviewCard;
+export default ReviewCard;
