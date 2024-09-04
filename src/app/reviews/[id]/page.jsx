@@ -61,7 +61,7 @@ const Review = async ({ params }) => {
                 style={{ objectFit: "cover" }}
               />
             </Box>
-            <Typography variant="body1" component="p" sx={{ my: 2 }}>
+            <Typography variant="body1" component="p" sx={{ my: 2, whiteSpace: "pre-line" }}>
               {review_data?.review}
             </Typography>
             <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>

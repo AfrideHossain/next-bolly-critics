@@ -2,17 +2,30 @@
 import { Box, Button, Grid } from "@mui/material";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import { useState, useEffect } from "react";
-import { getAllReviewsByUid } from "@/lib/data";
 
-// const getAllReviews = async (limit = 10, skip = 0, uid) => {
-//   try {
-//     const reviews = await getAllReviewsByUid(limit, skip, uid);
-//     console.log("===>", reviews);
-//   } catch (error) {
-//     console.error("Error fetching reviews:", error);
-//     return { reviews: [], total: 0 };
-//   }
-// };
+const getAllReviews = async (limit = 10, skip = 0, uid) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/reviews/${uid}?limit=${limit}&skip=${skip}`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch reviews");
+    }
+    const data = await response.json();
+
+    return {
+      reviews: data.reviews,
+      total: data.total, // Assuming you include the total count in the response
+    };
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return { reviews: [], total: 0 };
+  }
+};
 
 const ReviewsInDashboard = ({ session }) => {
   // console.log("session from inside reviews in dashboard: ", session);
@@ -23,7 +36,11 @@ const ReviewsInDashboard = ({ session }) => {
 
   const fetchReviews = async (page = 1) => {
     const skip = (page - 1) * reviewsPerPage;
-    const { reviews, total } = await getAllReviewsByUid(reviewsPerPage, skip);
+    const { reviews, total } = await getAllReviews(
+      reviewsPerPage,
+      skip,
+      session.user.id
+    );
 
     /* // Concatenating reviews
     setReviews((prevReviews) => [...prevReviews, ...reviews]); */

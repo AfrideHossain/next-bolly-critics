@@ -66,6 +66,7 @@ export const submitReview = async (data) => {
   try {
     const { rating, review, posterUrl, movieName } = data;
     const userId = session?.user?.id;
+    // console.log("user session ===.> ", session);
     const newReview = new Review({
       rating,
       review,
@@ -76,6 +77,35 @@ export const submitReview = async (data) => {
     await newReview.save();
     console.log("saved review");
     return true;
+  } catch (error) {
+    console.error("Error submitting review:", error);
+    return false;
+  }
+};
+
+// update review
+export const updateReview = async (data, id) => {
+  // const session = await auth();
+  // console.log(session);
+  await connectToDb();
+
+  try {
+    const { rating, review, posterUrl } = data;
+    let newDoc = {};
+    for (const key in data) {
+      if (!data[key].length > 0) continue;
+      newDoc[key] = data[key];
+    }
+    // console.log("from updateReview id: ", id);
+    // console.log("from updateReview newDoc: ", newDoc);
+    const updateDoc = await Review.updateOne({ _id: id }, { $set: newDoc });
+    console.log(updateDoc);
+    if (!updateDoc.modifiedCount > 0) {
+      return false;
+    }
+    return true;
+
+    // console.log("saved review");
   } catch (error) {
     console.error("Error submitting review:", error);
     return false;

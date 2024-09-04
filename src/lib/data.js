@@ -5,7 +5,7 @@ import { unstable_noStore as no_store } from "next/cache";
 export const getAllReviewsByUid = async (limit, skip) => {
   no_store();
   try {
-    await connectToDb();  
+    await connectToDb();
     const reviews = await Review.find()
       .sort({ createdAt: -1 })
       .limit(limit)
@@ -18,6 +18,7 @@ export const getAllReviewsByUid = async (limit, skip) => {
 };
 
 export const getReviewById = async (id) => {
+  // "use server";
   try {
     await connectToDb();
     const review = await Review.findById(id);
@@ -26,6 +27,7 @@ export const getReviewById = async (id) => {
     }
     return review;
   } catch (err) {
+    console.error("Error in getReviewById:", err);
     throw new Error("Failed to fetch data");
   }
 };

@@ -7,6 +7,7 @@ import {
   CardContent,
   CardMedia,
   IconButton,
+  Stack,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
@@ -59,14 +60,24 @@ const ReviewCard = ({ reviewInfo }) => {
             {rating}
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          color={"primary"}
-          sx={{ textTransform: "none" }}
-          href={`/reviews/${_id}`}
-        >
-          Read Now
-        </Button>
+        <Stack direction="row" spacing={2}>
+          <Button
+            variant="contained"
+            color={"info"}
+            sx={{ textTransform: "none" }}
+            href={`/dashboard/post/mod/${_id}`}
+          >
+            Update
+          </Button>
+          <Button
+            variant="contained"
+            color={"primary"}
+            sx={{ textTransform: "none" }}
+            href={`/reviews/${_id}`}
+          >
+            Read Now
+          </Button>
+        </Stack>
       </CardActions>
     </Card>
   );
