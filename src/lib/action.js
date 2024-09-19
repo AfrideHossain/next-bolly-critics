@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { Review, User } from "./models";
 import { connectToDb } from "./utils";
@@ -90,7 +91,7 @@ export const updateReview = async (data, id) => {
   await connectToDb();
 
   try {
-    const { rating, review, posterUrl } = data;
+    // const { rating, review, posterUrl } = data;
     let newDoc = {};
     for (const key in data) {
       if (!data[key].length > 0) continue;
@@ -108,6 +109,21 @@ export const updateReview = async (data, id) => {
     // console.log("saved review");
   } catch (error) {
     console.error("Error submitting review:", error);
+    return false;
+  }
+};
+
+export const deletePostById = async (id) => {
+  try {
+    await connectToDb();
+    const deleted = await Review.deleteOne({ _id: id });
+    if (!deleted.deletedCount > 0) {
+      return false;
+    }
+    revalidatePath("/dashboard");
+    return true;
+  } catch (error) {
+    console.log(error);
     return false;
   }
 };

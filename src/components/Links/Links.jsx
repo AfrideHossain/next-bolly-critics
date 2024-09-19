@@ -26,6 +26,11 @@ export const links = [
     path: "/dashboard/post",
     session_required: true,
   },
+  {
+    title: "Dashboard",
+    path: "/dashboard",
+    session_required: true,
+  },
 ];
 const Links = ({ session }) => {
   return (
@@ -59,6 +64,18 @@ const Links = ({ session }) => {
               </Link>
             )
         )}
+      {session && (
+        <>
+          <Link
+            href={`/dashboard/profile/${session?.user?.id}`}
+            variant="body1"
+            color="inherit"
+            underline="none"
+          >
+            Profile
+          </Link>
+        </>
+      )}
     </>
   );
 };

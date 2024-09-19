@@ -17,15 +17,10 @@ import React from "react";
 const Homepage = () => {
   return (
     <>
-      
       <Container maxWidth="xl">
         <Box position={"relative"}>
           <Avatar variant="square" sx={{ width: "inherit", height: "100vh" }}>
-            <Image
-              alt="profile picture"
-              src={"/.images/posters.jpeg"}
-              fill
-            />
+            <Image alt="profile picture" src={"/.images/posters.jpeg"} fill />
           </Avatar>
           <Box
             position={"absolute"}
@@ -73,6 +68,7 @@ const Homepage = () => {
                 variant="contained"
                 color="primary"
                 size="large"
+                href="/login"
               >
                 Get Started Now!
               </Button>
@@ -81,8 +77,8 @@ const Homepage = () => {
         </Box>
         <Heading title={"Featured Reviews"} />
         <Reviews />
-        <Heading title={"Popular Critics"} />
-        <Critics />
+        {/* <Heading title={"Popular Critics"} />
+        <Critics /> */}
         <Heading title={"About Bolly Critics"} />
         <AboutHome />
       </Container>

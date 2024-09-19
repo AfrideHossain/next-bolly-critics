@@ -12,10 +12,11 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import DeletePostBtn from "./DeletePostBtn";
 const ReviewCard = ({ reviewInfo }) => {
   const { posterUrl, movieName, rating, _id, createdAt } = reviewInfo;
   return (
-    <Card variant="elevation" sx={{ marginBottom: 5 }}>
+    <Card variant="elevation" sx={{ marginBottom: 5, position: "relative" }}>
       <CardMedia sx={{ height: 150 }}>
         <Box position="relative" sx={{ width: "100%", height: "100%" }}>
           <Image src={posterUrl} alt={movieName + "poster"} fill />
@@ -79,6 +80,14 @@ const ReviewCard = ({ reviewInfo }) => {
           </Button>
         </Stack>
       </CardActions>
+      {/* <Button
+        variant="contained"
+        color={"error"}
+        sx={{ position: "absolute", top: 5, right: 5 }}
+      >
+        <DeleteIcon /> 
+      </Button>*/}
+      <DeletePostBtn id={ _id} />
     </Card>
   );
 };
