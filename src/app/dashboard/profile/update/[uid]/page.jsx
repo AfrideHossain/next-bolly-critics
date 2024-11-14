@@ -12,42 +12,53 @@ import {
   Avatar,
   CircularProgress,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ params }) => {
   const [profileImage, setProfileImage] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
+  // router
+  const router = useRouter();
+  // get user's information from server through API
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/profile/user/${params.uid}`, {
+      next: { tags: "update-user" },
+    })
+      .then((res) => res.json())
+      .then((result) => setUserInfo(result.userInfo || {}));
+  }, [params.uid]);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      bio: "",
-    },
-  });
+  } = useForm();
 
   const onSubmit = async (data) => {
     console.log("Form data: ", data);
 
     try {
-      const response = await fetch("/api/user/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/profile/user/${params?.uid}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update profile");
       }
 
       const result = await response.json();
-      console.log("Profile updated successfully", result);
-      reset(); // Reset form after successful submission
+      // console.log("Profile updated successfully", result);
+      reset();
+      router.push(`/dashboard/profile/${params.uid}`);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -59,6 +70,7 @@ const UpdateProfile = () => {
       setProfileImage(URL.createObjectURL(file));
     }
   };
+  console.log(profileImage);
 
   return (
     <Box
@@ -135,9 +147,10 @@ const UpdateProfile = () => {
                   label="Name"
                   margin="normal"
                   variant="outlined"
-                  {...register("name", { required: "Name is required" })}
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
+                  {...register("username")}
+                  defaultValue={userInfo?.username}
+                  error={!!errors.username}
+                  helperText={errors.username?.message}
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "10px",
@@ -151,12 +164,12 @@ const UpdateProfile = () => {
                   variant="outlined"
                   type="email"
                   {...register("email", {
-                    required: "Email is required",
                     pattern: {
                       value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                       message: "Invalid email address",
                     },
                   })}
+                  defaultValue={userInfo?.email}
                   error={!!errors.email}
                   helperText={errors.email?.message}
                   sx={{
@@ -173,12 +186,12 @@ const UpdateProfile = () => {
                   multiline
                   rows={4}
                   {...register("bio", {
-                    required: "Bio is required",
                     maxLength: {
                       value: 200,
                       message: "Bio cannot exceed 200 characters",
                     },
                   })}
+                  defaultValue={userInfo?.bio}
                   error={!!errors.bio}
                   helperText={errors.bio?.message}
                   sx={{

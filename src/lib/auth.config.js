@@ -1,3 +1,5 @@
+import { User } from "./models";
+
 export const authConfig = {
   pages: {
     signIn: "/login",
@@ -6,10 +8,21 @@ export const authConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.username = user.username;
-        token.email = user.email;
-        token.isAdmin = user.isAdmin;
+        // console.log("inside jwt", user);
+        const dbUser = await User.findOne({ email: user.email });
+        // console.log("DBUSER => ", dbUser);
+
+        if (dbUser) {
+          token.id = dbUser._id;
+          token.username = dbUser.username;
+          token.email = dbUser.email;
+          token.isAdmin = dbUser.isAdmin;
+          token.img = dbUser.img;
+        }
+        // token.id = user.id;
+        // token.username = user.username;
+        // token.email = user.email;
+        // token.isAdmin = user.isAdmin;
       }
       // console.log("Token from authconfig: ", token);
       return token;
@@ -27,7 +40,6 @@ export const authConfig = {
     authorized({ auth, request }) {
       const user = auth?.user;
       //   const isOnAdminPanel = request.nextUrl?.pathname.startsWith("/admin");
-      // TODO
       const isOnReviewsPage = request.nextUrl?.pathname.startsWith("/reviews");
       const isOnDashboard = request.nextUrl?.pathname.startsWith("/dashboard");
       const isOnLoginPage = request.nextUrl?.pathname.startsWith("/login");
@@ -37,7 +49,7 @@ export const authConfig = {
       //   if (isOnAdminPanel && !user?.isAdmin) {
       //     return false;
       //   }
-      // TODO
+      
       // ONLY AUTHENTICATED USERS CAN REACH THE BLOG PAGE
 
       if (isOnReviewsPage && !user) {

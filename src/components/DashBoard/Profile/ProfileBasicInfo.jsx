@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
 
 const ProfileBasicInfo = ({ profileInfo }) => {
-  const { username, email, createdAt, img } = profileInfo;
+  const { username, email, createdAt, img, _id } = profileInfo;
   return (
     <Box display="flex" alignItems="center">
       <Avatar
@@ -22,7 +22,7 @@ const ProfileBasicInfo = ({ profileInfo }) => {
           })}"`}
         </Typography>
         <Button
-          href={"/dashboard/profile/update"}
+          href={`/dashboard/profile/update/${_id}`}
           variant="contained"
           sx={{ mt: 2 }}
           color={"primary"}

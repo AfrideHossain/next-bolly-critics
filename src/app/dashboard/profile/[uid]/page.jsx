@@ -20,7 +20,9 @@ const ProfilePage = ({ params }) => {
     setTabValue(newValue);
   };
   useEffect(() => {
-    fetch(`http://localhost:3000/api/profile/user/${params.uid}`)
+    fetch(`http://localhost:3000/api/profile/user/${params.uid}`, {
+      next: { tags: "update-user" },
+    })
       .then((res) => res.json())
       .then((result) => setUserInfo(result.userInfo || {}));
   }, [params.uid]);
@@ -44,7 +46,7 @@ const ProfilePage = ({ params }) => {
             {/* <Tab label="Activity" /> */}
           </Tabs>
           <Box mt={2}>
-            {tabValue === 0 && <ProfileTab />}
+            {tabValue === 0 && <ProfileTab userInfo={userInfo} />}
             {tabValue === 1 && <SettingsTab />}
             {/* {tabValue === 2 && <ActivityTab />} */}
           </Box>
@@ -55,13 +57,11 @@ const ProfilePage = ({ params }) => {
 };
 
 // Profile Tab
-const ProfileTab = () => (
+const ProfileTab = ({ userInfo }) => (
   <Box>
     <Typography variant="h5">About Me</Typography>
     <Typography variant="body1" color="gray" mt={2}>
-      {`I'm a web developer with over 5 years of experience in building and
-      designing web applications. I'm passionate about creating seamless user
-      experiences.`}
+      {userInfo?.bio || ""}
     </Typography>
   </Box>
 );

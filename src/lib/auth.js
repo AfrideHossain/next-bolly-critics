@@ -76,9 +76,9 @@ export const {
       if (account.provider === "github") {
         connectToDb();
         try {
-          const user = await User.findOne({ email: profile.email });
-          // console.log(user);
-          if (!user) {
+          const getUser = await User.findOne({ email: profile.email });
+          // console.log("Inside if try => ", user);
+          if (!getUser) {
             const newUser = new User({
               username: profile?.login,
               email: profile?.email,
@@ -86,6 +86,9 @@ export const {
             });
             await newUser.save();
           }
+          // Object.keys(user).forEach((key) => delete user[key]);
+          // user = { ...getUser._doc, id: getUser._doc._id };
+          // console.log("Inside if try => ", user);
         } catch (err) {
           // console.log(err);
           return false;
