@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { TextField, Button, Box, Typography, Container } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { submitReview } from "@/lib/action";
+import Tiptap from "@/components/RichTextEditor/Tiptap";
 const Post = () => {
   const {
     register,
@@ -55,7 +56,7 @@ const Post = () => {
           sx={{ mb: 2 }}
         />
 
-        <TextField
+        {/* <TextField
           label="Review"
           variant="outlined"
           fullWidth
@@ -65,7 +66,10 @@ const Post = () => {
           error={!!errors.review}
           helperText={errors.review ? errors.review.message : ""}
           sx={{ mb: 2 }}
-        />
+        /> */}
+        <Box sx={{ mb: 2, border: "1px solid gray", borderRadius: 1 }}>
+          <Tiptap />
+        </Box>
 
         <TextField
           label="Poster URL"
